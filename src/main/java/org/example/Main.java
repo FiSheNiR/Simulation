@@ -1,11 +1,12 @@
 package org.example;
 
+import org.example.Actions.Action;
+
 public class Main {
     public static void main(String[] args) {
-        Map map = new Map();
-        map.setupDefaultEntitiesPositions();
+        Simulation simulation = new Simulation();
+        simulation.startSimulation();
 
-        MapConsoleRenderer renderer = new MapConsoleRenderer();
-        renderer.render(map);
+
     }
 }

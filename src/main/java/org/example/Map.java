@@ -35,6 +35,6 @@ public class Map {
     }
 
     public void setupDefaultEntitiesPositions(){
-        setEntities(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1), 1, 1));
+        setEntities(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1)));
     }
 }

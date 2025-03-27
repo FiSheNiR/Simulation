@@ -4,11 +4,11 @@ import org.example.Coordinates;
 
 public class Predator extends Creature{
 
-    public int attackRate;
+    private final int attackRate;
 
-    public Predator(Coordinates coordinates, Integer speed, Integer health, int attackRate) {
-        super(coordinates, speed, health);
-        this.attackRate = attackRate;
+    public Predator(Coordinates coordinates) {
+        super(coordinates, 2, 20);
+        this.attackRate = 5;
     }
 
     @Override

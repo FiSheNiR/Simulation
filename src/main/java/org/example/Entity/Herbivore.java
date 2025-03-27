@@ -4,8 +4,8 @@ import org.example.Coordinates;
 
 public class Herbivore extends Creature{
 
-    public Herbivore(Coordinates coordinates, Integer speed, Integer health) {
-        super(coordinates, speed, health);
+    public Herbivore(Coordinates coordinates) {
+        super(coordinates, 1, 10);
     }
 
     @Override

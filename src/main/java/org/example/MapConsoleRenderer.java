@@ -11,11 +11,11 @@ public class MapConsoleRenderer {
 
     public void render(Map map) {
 
-        System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns+1));
+        System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns));
 
-        for (int horizontal = 0; horizontal <= MapScope.amountOfHorizontalRows; horizontal++) {
+        for (int horizontal = 0; horizontal < MapScope.amountOfHorizontalRows; horizontal++) {
             StringBuilder line = new StringBuilder("|");
-            for (int vertical = 0; vertical <= MapScope.amountOfVerticalColumns; vertical++) {
+            for (int vertical = 0; vertical < MapScope.amountOfVerticalColumns; vertical++) {
                 Coordinates coordinates = new Coordinates(horizontal, vertical);
                 if (map.isFieldEmpty(coordinates)) {
                     line.append(getSpriteForEmptyField());
@@ -29,13 +29,13 @@ public class MapConsoleRenderer {
 
             line.append(ANSI_RESET);
             System.out.println(line.toString());
-            System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns+1));
+            System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns));
         }
 
     }
 
     private String getSpriteForEmptyField() {
-        return (ANSI_GREEN_SQUARE_BACKGROUND + "   ");
+        return (ANSI_GREEN_SQUARE_BACKGROUND + "    ");
     }
 
     private String selectEmojiForEntity(Entity entity) {
