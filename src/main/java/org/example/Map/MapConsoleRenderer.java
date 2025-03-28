@@ -1,6 +1,7 @@
-package org.example;
+package org.example.Map;
 
 import org.example.Entity.Entity;
+import org.example.Simulation.Settings;
 
 public class MapConsoleRenderer {
 
@@ -11,11 +12,11 @@ public class MapConsoleRenderer {
 
     public void render(Map map) {
 
-        System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns));
+        System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
 
-        for (int horizontal = 0; horizontal < MapScope.amountOfHorizontalRows; horizontal++) {
+        for (int horizontal = 0; horizontal < Settings.AMOUNT_OF_HORIZONTAL_ROWS; horizontal++) {
             StringBuilder line = new StringBuilder("|");
-            for (int vertical = 0; vertical < MapScope.amountOfVerticalColumns; vertical++) {
+            for (int vertical = 0; vertical < Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
                 Coordinates coordinates = new Coordinates(horizontal, vertical);
                 if (map.isFieldEmpty(coordinates)) {
                     line.append(getSpriteForEmptyField());
@@ -29,7 +30,7 @@ public class MapConsoleRenderer {
 
             line.append(ANSI_RESET);
             System.out.println(line.toString());
-            System.out.println("+" + "---+".repeat(MapScope.amountOfVerticalColumns));
+            System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
         }
 
     }
@@ -42,7 +43,7 @@ public class MapConsoleRenderer {
         return switch (entity.getClass().getSimpleName()){
             case "Herbivore" -> "\uD83D\uDC07";
             case "Predator" -> "\uD83D\uDC05";
-            case "Obstacle" -> "\uD83C\uDF33";
+            case "Obstacle" -> "\uD83E\uDEA8";
             case "Plant" -> "\uD83C\uDF31";
             default -> "";
         };

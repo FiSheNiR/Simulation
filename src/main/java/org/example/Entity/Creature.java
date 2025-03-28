@@ -1,11 +1,11 @@
 package org.example.Entity;
 
-import org.example.Coordinates;
+import org.example.Map.Coordinates;
 
 public abstract class Creature extends Entity {
 
-    public int speed;
-    public int health;
+    private final int speed;
+    private final int health;
 
     public Creature(Coordinates coordinates, int speed, int health) {
         super(coordinates);

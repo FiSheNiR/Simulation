@@ -1,6 +1,6 @@
 package org.example.Actions;
 
-import org.example.Map;
+import org.example.Map.Map;
 
 public class Context {
     private Action action;

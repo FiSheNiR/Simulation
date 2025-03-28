@@ -1,6 +1,6 @@
-package org.example;
+package org.example.Map;
 
-import org.example.Entity.CoordinateShift;
+import org.example.Simulation.Settings;
 
 public class Coordinates {
 
@@ -21,8 +21,8 @@ public class Coordinates {
         int h = horizontalPosition + shift.horizontalShift;
         int v = verticalPosition + shift.verticalShift;
 
-        if ((h < 0) || (h > MapScope.amountOfHorizontalRows)) return false;
-        if ((v < 0) || (v > MapScope.amountOfHorizontalRows)) return false;
+        if ((h < 0) || (h > Settings.AMOUNT_OF_HORIZONTAL_ROWS)) return false;
+        if ((v < 0) || (v > Settings.AMOUNT_OF_HORIZONTAL_ROWS)) return false;
 
         return true;
     }

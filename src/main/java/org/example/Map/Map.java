@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Map;
 
 import org.example.Entity.Entity;
 import org.example.Entity.Herbivore;

@@ -1,6 +1,6 @@
 package org.example.Entity;
 
-import org.example.Coordinates;
+import org.example.Map.Coordinates;
 
 public class Herbivore extends Creature{
 

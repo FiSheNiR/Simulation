@@ -1,4 +1,4 @@
-package org.example.Entity;
+package org.example.Map;
 
 public class CoordinateShift {
     public final int horizontalShift;

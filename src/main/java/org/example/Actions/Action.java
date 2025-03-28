@@ -1,7 +1,7 @@
 package org.example.Actions;
 
-import org.example.Map;
+import org.example.Map.Map;
 
-public interface Action {
-    void execute(Map map);
+public abstract class Action {
+    public abstract void execute(Map map);
 }
