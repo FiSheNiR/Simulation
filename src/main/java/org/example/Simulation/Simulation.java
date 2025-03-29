@@ -11,7 +11,6 @@ public class Simulation {
     public Map map = new Map();
     public int moveCounter;
     public MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
-    public Context context = new Context();
 
     List<Action> initActions = new ArrayList<>();
     List<Action> turnActions = new ArrayList<>();
@@ -20,8 +19,7 @@ public class Simulation {
     public void startSimulation() {
         createActions();
         for (Action action : initActions) {
-            context.setAction(action);
-            context.executeAction(map);
+            action.execute(map);
         }
 
         mapConsoleRenderer.render(map);

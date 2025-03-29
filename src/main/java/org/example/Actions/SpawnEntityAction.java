@@ -8,12 +8,15 @@ import java.util.Random;
 
 public abstract class SpawnEntityAction extends Action {
 
+    protected int spawnRate;
     private final Random rand = new Random();
 
     @Override
     public void execute(Map map) {
-        Coordinates emptyCell = getRandomEmptyCell(map);
-        map.setEntities(emptyCell, spawnEntity(emptyCell));
+        for (int i = 0; i < spawnRate; i++) {
+            Coordinates emptyCell = getRandomEmptyCell(map);
+            map.setEntities(emptyCell, spawnEntity(emptyCell));
+        }
     }
 
     private Coordinates getRandomEmptyCell(Map map) {
