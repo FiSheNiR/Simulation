@@ -2,6 +2,8 @@ package org.example.Actions;
 
 import org.example.Map.Map;
 
-public abstract class Action {
-    public abstract void execute(Map map);
+import java.lang.reflect.InvocationTargetException;
+
+public interface Action {
+    void execute(Map map);
 }

@@ -1,23 +1,30 @@
 package org.example.Actions;
+
+import org.example.Entity.Entity;
+import org.example.Entity.Herbivore;
+import org.example.Entity.Obstacle;
 import org.example.Map.Coordinates;
-import org.example.Entity.*;
 import org.example.Map.Map;
 import org.example.Simulation.Settings;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
-public abstract class SpawnEntityAction implements Action {
+public class SpawnEntityByReflection implements Action {
 
-    protected int spawnRate;
+    protected int spawnRate = 5;
     private final Random rand = new Random();
+    private final Class<? extends Entity> className;
+
+    public SpawnEntityByReflection(Class<? extends Entity> className) {
+        this.className = className;
+    }
 
     @Override
     public void execute(Map map) {
         for (int i = 0; i < spawnRate; i++) {
             Coordinates emptyCell = getRandomEmptyCell(map);
-            map.setEntities(emptyCell, spawnEntity(emptyCell));
+            map.setEntities(emptyCell, spawnEntity(className, emptyCell));
         }
     }
 
@@ -31,7 +38,14 @@ public abstract class SpawnEntityAction implements Action {
         }
     }
 
-    public abstract Entity spawnEntity(Coordinates coordinates);
+    private <T extends Entity> T spawnEntity(Class<T> clazz, Coordinates coordinates) {
+        try {
 
-    // спросить у гпт как + рефлексия <? extends entity>
+            Constructor<T> constructor = clazz.getConstructor(Coordinates.class);
+            return constructor.newInstance(coordinates);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,6 +1,10 @@
 package org.example.Simulation;
 
 import org.example.Actions.*;
+import org.example.Entity.Herbivore;
+import org.example.Entity.Obstacle;
+import org.example.Entity.Plant;
+import org.example.Entity.Predator;
 import org.example.Map.Map;
 import org.example.Map.MapConsoleRenderer;
 
@@ -8,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    public Map map = new Map();
+    private final Map map = new Map();
     public int moveCounter;
-    public MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
+    private final MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
 
     List<Action> initActions = new ArrayList<>();
     List<Action> turnActions = new ArrayList<>();
@@ -26,9 +30,16 @@ public class Simulation {
     }
 
     public void createActions(){
-        initActions.add(new SpawnHerbivoreAction());
-        initActions.add(new SpawnPredatorAction());
-        initActions.add(new SpawnObstacleAction());
-        initActions.add(new SpawnPlantAction());
+
+//        initActions.add(new SpawnPredatorAction());
+//        initActions.add(new SpawnObstacleAction());
+//        initActions.add(new SpawnPlantAction());
+//        initActions.add(new SpawnHerbivoreAction());
+        initActions.add(new SpawnEntityByReflection(Obstacle.class));
+        initActions.add(new SpawnEntityByReflection(Herbivore.class));
+        initActions.add(new SpawnEntityByReflection(Predator.class));
+        initActions.add(new SpawnEntityByReflection(Plant.class));
+
+//   initActions.add(new SpawnEntityAction());
     }
 }

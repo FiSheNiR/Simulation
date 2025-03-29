@@ -12,10 +12,6 @@ public class SpawnHerbivoreAction extends SpawnEntityAction {
         super.spawnRate = 5;
     }
 
-    @Override
-    public void execute(Map map) {
-        // надо количество всех сущностей в мапе если оно менше тогда создать зверюшек
-    }
 
     @Override
     public Entity spawnEntity(Coordinates coordinates) {

@@ -22,10 +22,9 @@ public class Coordinates {
         int v = verticalPosition + shift.verticalShift;
 
         if ((h < 0) || (h > Settings.AMOUNT_OF_HORIZONTAL_ROWS)) return false;
-        if ((v < 0) || (v > Settings.AMOUNT_OF_HORIZONTAL_ROWS)) return false;
-
-        return true;
+        return (v >= 0) && (v <= Settings.AMOUNT_OF_HORIZONTAL_ROWS);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
