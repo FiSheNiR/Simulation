@@ -3,11 +3,13 @@ package org.example.Map;
 import org.example.Entity.Entity;
 import org.example.Entity.Herbivore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Map {
 
-    public HashMap<Coordinates, Entity> entities = new HashMap<>();
+    private final HashMap<Coordinates, Entity> entities = new HashMap<>();
 
     public void setEntities(Coordinates coordinates, Entity entity) {
         entity.coordinates = coordinates;
@@ -19,15 +21,19 @@ public class Map {
     }
 
     public void moveEntity(Coordinates from, Coordinates to) {
-        Entity entity = getEntity(from);
+        Entity entity = getEntityByCoordinates(from);
 
         removeEntity(from);
 
         setEntities(to, entity);
     }
 
-    public Entity getEntity(Coordinates coordinates) {
+    public Entity getEntityByCoordinates(Coordinates coordinates) {
         return entities.get(coordinates);
+    }
+
+    public HashMap<Coordinates, Entity> getCurrentGameMap() {
+        return entities;
     }
 
     public boolean isFieldEmpty(Coordinates coordinates) {

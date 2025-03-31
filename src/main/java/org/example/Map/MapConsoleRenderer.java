@@ -14,15 +14,15 @@ public class MapConsoleRenderer {
 
         System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
 
-        for (int horizontal = 0; horizontal < Settings.AMOUNT_OF_HORIZONTAL_ROWS; horizontal++) {
+        for (int horizontal = 0; horizontal <= Settings.AMOUNT_OF_HORIZONTAL_ROWS; horizontal++) {
             StringBuilder line = new StringBuilder("|");
-            for (int vertical = 0; vertical < Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
+            for (int vertical = 0; vertical <= Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
                 Coordinates coordinates = new Coordinates(horizontal, vertical);
                 if (map.isFieldEmpty(coordinates)) {
                     line.append(getSpriteForEmptyField());
                 }
                 else {
-                    line.append(getEntitySprite(map.getEntity(coordinates)));
+                    line.append(getEntitySprite(map.getEntityByCoordinates(coordinates)));
                 }
 
                 line.append("|");
