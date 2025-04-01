@@ -21,12 +21,10 @@ public class Coordinates {
         int h = horizontalPosition + shift.horizontalShift;
         int v = verticalPosition + shift.verticalShift;
 
-        if (h < Settings.HORIZONTAL_BOTTOM_BOUND) return false;
-        if (v < Settings.HORIZONTAL_BOTTOM_BOUND) return false;
-        if (v > Settings.AMOUNT_OF_VERTICAL_COLUMNS) return false;
-        if (h > Settings.AMOUNT_OF_HORIZONTAL_ROWS) return false;
-
-        return true;
+        return  h >= Settings.HORIZONTAL_BOTTOM_BOUND &&
+                v >= Settings.HORIZONTAL_BOTTOM_BOUND &&
+                v <= Settings.AMOUNT_OF_VERTICAL_COLUMNS &&
+                h <= Settings.AMOUNT_OF_HORIZONTAL_ROWS;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class MapConsoleRenderer {
     public static final String ANSI_GREEN_SQUARE_BACKGROUND = "\u001B[48;5;22m";
 
 
-    public void render(Map map) {
+    public void render(GameMap gameMap) {
 
         System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
 
@@ -18,11 +18,11 @@ public class MapConsoleRenderer {
             StringBuilder line = new StringBuilder("|");
             for (int vertical = 0; vertical <= Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
                 Coordinates coordinates = new Coordinates(horizontal, vertical);
-                if (map.isFieldEmpty(coordinates)) {
+                if (gameMap.isFieldEmpty(coordinates)) {
                     line.append(getSpriteForEmptyField());
                 }
                 else {
-                    line.append(getEntitySprite(map.getEntityByCoordinates(coordinates)));
+                    line.append(getEntitySprite(gameMap.getEntityByCoordinates(coordinates)));
                 }
 
                 line.append("|");

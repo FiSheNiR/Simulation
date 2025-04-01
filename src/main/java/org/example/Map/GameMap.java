@@ -3,11 +3,9 @@ package org.example.Map;
 import org.example.Entity.Entity;
 import org.example.Entity.Herbivore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class Map {
+public class GameMap {
 
     private final HashMap<Coordinates, Entity> entities = new HashMap<>();
 

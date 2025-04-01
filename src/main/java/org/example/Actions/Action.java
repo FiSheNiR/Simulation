@@ -1,9 +1,7 @@
 package org.example.Actions;
 
-import org.example.Map.Map;
-
-import java.lang.reflect.InvocationTargetException;
+import org.example.Map.GameMap;
 
 public interface Action {
-    void execute(Map map);
+    void execute(GameMap gameMap);
 }

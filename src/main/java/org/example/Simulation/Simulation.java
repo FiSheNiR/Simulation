@@ -5,16 +5,14 @@ import org.example.Entity.Herbivore;
 import org.example.Entity.Obstacle;
 import org.example.Entity.Plant;
 import org.example.Entity.Predator;
-import org.example.Map.Coordinates;
-import org.example.Map.Map;
+import org.example.Map.GameMap;
 import org.example.Map.MapConsoleRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class Simulation {
-    private final Map map = new Map();
+    private final GameMap gameMap = new GameMap();
     public int moveCounter = 0;
     private final MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
 
@@ -25,11 +23,11 @@ public class Simulation {
     public void startSimulation() {
         createActions();
         for (Action action : initActions) {
-            action.execute(map);
+            action.execute(gameMap);
         }
+        mapConsoleRenderer.render(gameMap);
         while (moveCounter < 100) {
             nextTurn();
-            int i = 123;
             moveCounter++;
         }
 
@@ -38,11 +36,12 @@ public class Simulation {
     private void nextTurn(){
         try {
             for (Action action : turnActions) {
-                action.execute(map);
+                action.execute(gameMap);
             }
-            mapConsoleRenderer.render(map);
+            Thread.sleep(Settings.TIME_SLEEP_BETWEEN_TURNS);
+            mapConsoleRenderer.render(gameMap);
 
-            Thread.sleep(2000);
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -53,6 +52,6 @@ public class Simulation {
         initActions.add(new SpawnEntityAction(Herbivore.class));
         initActions.add(new SpawnEntityAction(Predator.class));
         initActions.add(new SpawnEntityAction(Plant.class));
-        turnActions.add(new MakeEntityMoveAction());
+        turnActions.add(new MoveEntityAction());
     }
 }
