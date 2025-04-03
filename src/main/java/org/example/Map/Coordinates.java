@@ -22,7 +22,7 @@ public class Coordinates {
         int v = verticalPosition + shift.verticalShift;
 
         return  h >= Settings.HORIZONTAL_BOTTOM_BOUND &&
-                v >= Settings.HORIZONTAL_BOTTOM_BOUND &&
+                v >= Settings.VERTICAL_BOTTOM_BOUND &&
                 v <= Settings.AMOUNT_OF_VERTICAL_COLUMNS &&
                 h <= Settings.AMOUNT_OF_HORIZONTAL_ROWS;
     }

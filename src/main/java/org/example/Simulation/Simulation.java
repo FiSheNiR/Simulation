@@ -7,24 +7,29 @@ import org.example.Map.MapConsoleRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Simulation {
     private final GameMap gameMap = new GameMap();
     public int moveCounter = 0;
     private final MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
+    private static volatile boolean isPaused = false;
 
     List<Action> initActions = new ArrayList<>();
     List<Action> turnActions = new ArrayList<>();
 
     public void startSimulation() {
+        startInputThread();
         createActions();
         for (Action action : initActions) {
             action.execute(gameMap);
         }
         while (moveCounter < 100) {
-            System.out.println("Ход номер: " + moveCounter);
-            nextTurn();
-            moveCounter++;
+            if (!isPaused) {
+                nextTurn();
+                moveCounter++;
+                System.out.println("Ход номер: " + moveCounter);
+            }else waitForResume();
         }
 
     }
@@ -45,7 +50,37 @@ public class Simulation {
         }
     }
 
-    public void createActions(){
+    private void startInputThread() {
+        Thread inputThread = new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                System.out.println("Press 'p' to pause or 'r' to resume:");
+                String input = scanner.nextLine().trim();
+                if (input.equalsIgnoreCase("p")) {
+                    isPaused = true;
+                    System.out.println("Simulation paused.");
+                } else if (input.equalsIgnoreCase("r")) {
+                    isPaused = false;
+                    System.out.println("Simulation resumed.");
+                }
+            }
+        });
+        inputThread.setDaemon(true);
+        inputThread.start();
+    }
+
+    private void waitForResume() {
+        try {
+            synchronized (this) {
+                while (isPaused) {
+                    wait(500);
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    private void createActions(){
         initActions.add(new SpawnEntityAction(Obstacle.class));
         initActions.add(new SpawnEntityAction(Predator.class));
         turnActions.add(new MoveEntityAction());
