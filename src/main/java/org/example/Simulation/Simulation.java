@@ -16,13 +16,13 @@ public class Simulation {
     List<Action> initActions = new ArrayList<>();
     List<Action> turnActions = new ArrayList<>();
 
-
     public void startSimulation() {
         createActions();
         for (Action action : initActions) {
             action.execute(gameMap);
         }
         while (moveCounter < 100) {
+            System.out.println("Ход номер: " + moveCounter);
             nextTurn();
             moveCounter++;
         }
@@ -40,8 +40,6 @@ public class Simulation {
             turnActions.add(new SpawnEntityAction(Plant.class, countEntities(Plant.class)));
             Thread.sleep(Settings.TIME_SLEEP_BETWEEN_TURNS);
             mapConsoleRenderer.render(gameMap);
-
-
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -56,12 +54,9 @@ public class Simulation {
     }
 
     private int countEntities(Class<? extends Entity> className) {
-        // Подсчитываем количество сущностей указанного класса (исключая null)
         int count = (int) gameMap.getCurrentGameMap().values().stream()
-                .filter(entity -> entity != null && className.isInstance(entity))
+                .filter(className::isInstance)
                 .count();
-
-        // Если количество меньше базовой скорости спавна, возвращаем разницу
         return Math.max(0, Settings.BASE_SPAWN_RATE - count);
     }
 }

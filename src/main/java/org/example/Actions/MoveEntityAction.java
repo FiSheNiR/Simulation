@@ -4,7 +4,6 @@ import org.example.Entity.Creature;
 import org.example.Map.GameMap;
 
 public class MoveEntityAction implements Action {
-
     @Override
     public void execute(GameMap gameMap) {
         gameMap.getCurrentGameMap().values().stream()
