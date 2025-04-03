@@ -1,10 +1,7 @@
 package org.example.Simulation;
 
 import org.example.Actions.*;
-import org.example.Entity.Herbivore;
-import org.example.Entity.Obstacle;
-import org.example.Entity.Plant;
-import org.example.Entity.Predator;
+import org.example.Entity.*;
 import org.example.Map.GameMap;
 import org.example.Map.MapConsoleRenderer;
 
@@ -25,7 +22,6 @@ public class Simulation {
         for (Action action : initActions) {
             action.execute(gameMap);
         }
-        mapConsoleRenderer.render(gameMap);
         while (moveCounter < 100) {
             nextTurn();
             moveCounter++;
@@ -38,6 +34,10 @@ public class Simulation {
             for (Action action : turnActions) {
                 action.execute(gameMap);
             }
+            turnActions.removeLast();
+            turnActions.removeLast();
+            turnActions.add(new SpawnEntityAction(Herbivore.class, countEntities(Herbivore.class)));
+            turnActions.add(new SpawnEntityAction(Plant.class, countEntities(Plant.class)));
             Thread.sleep(Settings.TIME_SLEEP_BETWEEN_TURNS);
             mapConsoleRenderer.render(gameMap);
 
@@ -49,9 +49,19 @@ public class Simulation {
 
     public void createActions(){
         initActions.add(new SpawnEntityAction(Obstacle.class));
-        initActions.add(new SpawnEntityAction(Herbivore.class));
         initActions.add(new SpawnEntityAction(Predator.class));
-        initActions.add(new SpawnEntityAction(Plant.class));
         turnActions.add(new MoveEntityAction());
+        turnActions.add(new SpawnEntityAction(Herbivore.class, countEntities(Herbivore.class)));
+        turnActions.add(new SpawnEntityAction(Plant.class, countEntities(Plant.class)));
+    }
+
+    private int countEntities(Class<? extends Entity> className) {
+        // Подсчитываем количество сущностей указанного класса (исключая null)
+        int count = (int) gameMap.getCurrentGameMap().values().stream()
+                .filter(entity -> entity != null && className.isInstance(entity))
+                .count();
+
+        // Если количество меньше базовой скорости спавна, возвращаем разницу
+        return Math.max(0, Settings.BASE_SPAWN_RATE - count);
     }
 }

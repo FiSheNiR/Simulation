@@ -2,6 +2,9 @@ package org.example.Entity;
 
 import org.example.Map.Coordinates;
 import org.example.Map.GameMap;
+import org.example.Service.BFS;
+
+import java.util.Deque;
 
 public class Herbivore extends Creature{
 
@@ -10,26 +13,29 @@ public class Herbivore extends Creature{
     }
 
     @Override
-    public boolean isFieldAvailableForMove(Coordinates coordinates, GameMap gameMap) {
-        boolean result = super.isFieldAvailableForMove(coordinates, gameMap);
-        Entity entity = gameMap.getEntityByCoordinates(coordinates);
-        if (result) {
-            return !(entity instanceof Predator) && !(entity instanceof Herbivore);
-        }
-        return false;
-    }
-
-    @Override
     public void makeMove(GameMap gameMap) {
+        BFS bfs = new BFS(gameMap);
+
         for (int i = 0; i < speed; i++) {
-            BFS bfs = new BFS(gameMap);
-            if(bfs.isGrassNear(this.coordinates)!= null){
-                travel(this.coordinates, bfs.isGrassNear(this.coordinates),gameMap);
-            } else if (!bfs.findPathToGrass(this.coordinates).isEmpty()) {
-                travel(this.coordinates, bfs.findPathToGrass(coordinates).getFirst(), gameMap);
-            } else {
-                travel(this.coordinates, getRandomShiftCoordinates(gameMap, this.coordinates), gameMap);
+            Coordinates targetNear = bfs.isTargetNear(this.coordinates, Herbivore.class);
+            if (targetNear != null) {
+                travel(this.coordinates, targetNear, gameMap);
+                continue;
             }
+
+            Deque<Coordinates> path = bfs.findPathToTarget(this.coordinates, Herbivore.class);
+            if (!path.isEmpty()) {
+                travel(this.coordinates, path.pollFirst(), gameMap);
+                continue;
+            }
+
+            Coordinates randomShift = bfs.getRandomShiftCoordinates(this.coordinates);
+            if (randomShift != null) {
+                travel(this.coordinates, randomShift, gameMap);
+                continue;
+            }
+
+            break;
         }
     }
 }

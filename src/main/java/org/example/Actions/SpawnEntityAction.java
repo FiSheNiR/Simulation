@@ -1,11 +1,14 @@
 package org.example.Actions;
 
 import org.example.Entity.Entity;
+import org.example.Entity.Plant;
 import org.example.Map.Coordinates;
 import org.example.Map.GameMap;
 import org.example.Simulation.Settings;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SpawnEntityAction implements Action {

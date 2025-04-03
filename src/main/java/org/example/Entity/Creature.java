@@ -3,7 +3,7 @@ package org.example.Entity;
 import org.example.Map.Coordinates;
 import org.example.Map.GameMap;
 
-public abstract class Creature extends Entity implements Movable {
+public abstract class Creature extends Entity implements ICreature {
 
     protected final int speed;
     protected final int health;
