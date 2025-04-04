@@ -11,12 +11,10 @@ public interface Movable {
     default void move(Coordinates from, GameMap gameMap, Class<? extends Creature> creatureClass) {
         BFS bfs = new BFS(gameMap);
 
-        // Поиск ближайшей цели, пути или случайного сдвига
         Coordinates targetNear = bfs.isTargetNear(from, creatureClass);
         Deque<Coordinates> path = bfs.findPathToTarget(from, creatureClass);
         Coordinates randomShift = bfs.getRandomShiftCoordinates(from);
 
-        // Основная логика движения
         if (targetNear != null) {
             handleTargetNear(from, targetNear, gameMap, creatureClass);
         } else if (!path.isEmpty()) {
@@ -40,9 +38,7 @@ public interface Movable {
         Entity predator = gameMap.getEntityByCoordinates(predatorCoordinates);
         Entity target = gameMap.getEntityByCoordinates(targetCoordinates);
 
-        if (predator instanceof Predator && target instanceof Herbivore) {
-            Herbivore herbivore = (Herbivore) target;
-            Predator predatorInstance = (Predator) predator;
+        if (predator instanceof Predator predatorInstance && target instanceof Herbivore herbivore) {
             herbivore.setHealth(herbivore.getHealth() - predatorInstance.getAttackRate());
         }
     }
@@ -51,15 +47,16 @@ public interface Movable {
         Entity predator = gameMap.getEntityByCoordinates(predatorCoordinates);
         Entity target = gameMap.getEntityByCoordinates(targetCoordinates);
 
-        if (predator instanceof Predator && target instanceof Herbivore) {
-            Herbivore herbivore = (Herbivore) target;
-            Predator predatorInstance = (Predator) predator;
+        if (predator instanceof Predator predatorInstance && target instanceof Herbivore herbivore) {
             return herbivore.getHealth() - predatorInstance.getAttackRate() > 0;
         }
         return false;
     }
 
     private void travel(Coordinates from, Coordinates to, GameMap gameMap) {
+        if (gameMap.getEntityByCoordinates(from) == null) {
+            return;
+        }
         gameMap.moveEntity(from, to);
     }
 }

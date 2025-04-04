@@ -14,7 +14,7 @@ public abstract class Creature extends Entity implements Movable {
         this.health = health;
     }
 
-    public int getHealth() {
+    protected int getHealth() {
         return health;
     }
 

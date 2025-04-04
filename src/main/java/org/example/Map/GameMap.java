@@ -1,7 +1,6 @@
 package org.example.Map;
 
 import org.example.Entity.Entity;
-import org.example.Entity.Herbivore;
 
 import java.util.HashMap;
 
@@ -14,13 +13,15 @@ public class GameMap {
         entities.put(coordinates, entity);
     }
 
-    public void removeEntity(Coordinates coordinates) {
+    private void removeEntity(Coordinates coordinates) {
         entities.remove(coordinates);
     }
 
     public void moveEntity(Coordinates from, Coordinates to) {
         Entity entity = getEntityByCoordinates(from);
-
+        if (entity == null) {
+            throw new IllegalStateException("No entity found at coordinates: " + from);
+        }
         removeEntity(from);
 
         setEntities(to, entity);
@@ -36,9 +37,5 @@ public class GameMap {
 
     public boolean isFieldEmpty(Coordinates coordinates) {
         return !entities.containsKey(coordinates);
-    }
-
-    public void setupDefaultEntitiesPositions(){
-        setEntities(new Coordinates(1, 1), new Herbivore(new Coordinates(1, 1)));
     }
 }

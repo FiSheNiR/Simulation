@@ -102,11 +102,11 @@ public class BFS {
         Set<CoordinateShift> result = new HashSet<>();
 
         for (int fileShift = -1; fileShift <= 1; fileShift++) {
-            for (int rankShift = -1; rankShift <= 1; rankShift++) {
-                if ((fileShift == 0) && (rankShift == 0)) {
+            for (int verticalShift = -1; verticalShift <= 1; verticalShift++) {
+                if ((fileShift == 0) && (verticalShift == 0)) {
                     continue;
                 }
-                result.add(new CoordinateShift(fileShift, rankShift));
+                result.add(new CoordinateShift(fileShift, verticalShift));
             }
         }
 

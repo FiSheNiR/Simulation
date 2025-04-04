@@ -5,18 +5,18 @@ import org.example.Simulation.Settings;
 
 public class MapConsoleRenderer {
 
-    public static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RESET = "\u001B[0m";
 
-    public static final String ANSI_GREEN_SQUARE_BACKGROUND = "\u001B[48;5;22m";
+    private static final String ANSI_GREEN_SQUARE_BACKGROUND = "\u001B[48;5;22m";
 
 
     public void render(GameMap gameMap) {
 
-        System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
+        System.out.println("+" + "-----+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
 
-        for (int horizontal = 0; horizontal <= Settings.AMOUNT_OF_HORIZONTAL_ROWS; horizontal++) {
+        for (int horizontal = Settings.HORIZONTAL_BOTTOM_BOUND; horizontal <= Settings.AMOUNT_OF_HORIZONTAL_ROWS; horizontal++) {
             StringBuilder line = new StringBuilder("|");
-            for (int vertical = 0; vertical <= Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
+            for (int vertical = Settings.VERTICAL_BOTTOM_BOUND; vertical <= Settings.AMOUNT_OF_VERTICAL_COLUMNS; vertical++) {
                 Coordinates coordinates = new Coordinates(horizontal, vertical);
                 if (gameMap.isFieldEmpty(coordinates)) {
                     line.append(getSpriteForEmptyField());
@@ -29,8 +29,8 @@ public class MapConsoleRenderer {
             }
 
             line.append(ANSI_RESET);
-            System.out.println(line.toString());
-            System.out.println("+" + "---+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
+            System.out.println(line);
+            System.out.println("+" + "-----+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
         }
 
     }
