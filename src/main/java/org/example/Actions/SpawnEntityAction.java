@@ -1,19 +1,15 @@
 package org.example.Actions;
 
 import org.example.Entity.Entity;
-import org.example.Entity.Plant;
 import org.example.Map.Coordinates;
 import org.example.Map.GameMap;
 import org.example.Simulation.Settings;
-
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class SpawnEntityAction implements Action {
 
-    protected int spawnRate = Settings.BASE_SPAWN_RATE;
+    private int spawnRate;
     private final Random rand = new Random();
     private final Class<? extends Entity> className;
 
@@ -28,7 +24,13 @@ public class SpawnEntityAction implements Action {
 
     @Override
     public void execute(GameMap gameMap) {
-        for (int i = 0; i < spawnRate; i++) {
+        int count;
+
+        if (spawnRate>0){
+            count = spawnRate;
+        }else count = countEntities(className, gameMap);
+
+        for (int i = 0; i < count; i++) {
             Coordinates emptyCell = getRandomEmptyCell(gameMap);
             gameMap.setEntities(emptyCell, spawnEntity(className, emptyCell));
         }
@@ -52,5 +54,12 @@ public class SpawnEntityAction implements Action {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private int countEntities(Class<? extends Entity> className, GameMap gameMap) {
+        int count = (int) gameMap.getCurrentGameMap().values().stream()
+                .filter(className::isInstance)
+                .count();
+        return Math.max(0, Settings.BASE_SPAWN_RATE - count);
     }
 }

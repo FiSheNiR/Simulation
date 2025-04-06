@@ -5,11 +5,6 @@ import org.example.Simulation.Settings;
 
 public class MapConsoleRenderer {
 
-    private static final String ANSI_RESET = "\u001B[0m";
-
-    private static final String ANSI_GREEN_SQUARE_BACKGROUND = "\u001B[48;5;22m";
-
-
     public void render(GameMap gameMap) {
 
         System.out.println("+" + "-----+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
@@ -28,7 +23,7 @@ public class MapConsoleRenderer {
                 line.append("|");
             }
 
-            line.append(ANSI_RESET);
+            line.append(Settings.ANSI_RESET);
             System.out.println(line);
             System.out.println("+" + "-----+".repeat(Settings.AMOUNT_OF_VERTICAL_COLUMNS));
         }
@@ -36,19 +31,19 @@ public class MapConsoleRenderer {
     }
 
     private String getSpriteForEmptyField() {
-        return (ANSI_GREEN_SQUARE_BACKGROUND + "    ");
+        return (Settings.ANSI_GREEN_SQUARE_BACKGROUND + "    ");
     }
 
     private String selectEmojiForEntity(Entity entity) {
         return switch (entity.getClass().getSimpleName()){
-            case "Herbivore" -> "\uD83D\uDC07";
-            case "Predator" -> "\uD83D\uDC05";
-            case "Obstacle" -> "\uD83E\uDEA8";
-            case "Plant" -> "\uD83C\uDF31";
+            case "Herbivore" -> Settings.HERBIVORE_EMOJI;
+            case "Predator" -> Settings.PREDATOR_EMOJI;
+            case "Obstacle" -> Settings.OBSTACLE_EMOJI;
+            case "Plant" -> Settings.PLANT_EMOJI;
             default -> "";
         };
     }
     private String getEntitySprite(Entity entity) {
-        return (ANSI_GREEN_SQUARE_BACKGROUND+ " " + selectEmojiForEntity(entity) + " ");
+        return (Settings.ANSI_GREEN_SQUARE_BACKGROUND+ " " + selectEmojiForEntity(entity) + " ");
     }
 }

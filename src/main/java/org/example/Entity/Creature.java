@@ -6,7 +6,7 @@ import org.example.Map.GameMap;
 public abstract class Creature extends Entity implements Movable {
 
     protected final int speed;
-    protected int health;
+    private int health;
 
     public Creature(Coordinates coordinates, int speed, int health) {
         super(coordinates);

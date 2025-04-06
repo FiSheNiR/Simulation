@@ -77,6 +77,9 @@ public class BFS {
     }
 
     public Coordinates getRandomShiftCoordinates(Coordinates coordinates) {
+        if (emptyFieldsNear(coordinates).isEmpty()) {
+            return coordinates;
+        }
         int randomIndex = random.nextInt(emptyFieldsNear(coordinates).size());
         return emptyFieldsNear(coordinates).get(randomIndex);
     }

@@ -22,7 +22,7 @@ public interface Movable {
         } else if (randomShift != null) {
             travel(from, randomShift, gameMap);
         } else {
-            travel(from, from, gameMap); // Остаемся на месте
+            travel(from, from, gameMap);
         }
     }
 
