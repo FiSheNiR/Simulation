@@ -1,22 +1,33 @@
-package org.example.Simulation;
+package org.example.simulation;
 
-import org.example.Actions.*;
-import org.example.Entity.*;
-import org.example.Map.GameMap;
-import org.example.Map.MapConsoleRenderer;
-
+import org.example.actions.*;
+import org.example.entity.*;
+import org.example.map.GameMap;
+import org.example.map.MapConsoleRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Simulation {
-    private final GameMap gameMap = new GameMap();
+    private final GameMap gameMap;
     public int moveCounter = 0;
-    private final MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
+
     private static volatile boolean isPaused = false;
+    private final static String PAUSE = "p";
+    private final static String RESUME = "r";
+    private final int turns;
+    private final int timeSleepBetweenTurns;
+    private final MapConsoleRenderer mapConsoleRenderer;
 
     List<Action> initActions = new ArrayList<>();
     List<Action> turnActions = new ArrayList<>();
+
+    public Simulation(int turns, int timeSleepBetweenTurns, int gameMapWidth, int gameMapHeight) {
+        this.turns = turns;
+        this.timeSleepBetweenTurns = timeSleepBetweenTurns;
+        mapConsoleRenderer = new MapConsoleRenderer(gameMapWidth, gameMapHeight) ;
+        gameMap = new GameMap(gameMapWidth, gameMapHeight);
+    }
 
     public void startSimulation() {
         pauseSimulation();
@@ -24,7 +35,7 @@ public class Simulation {
         for (Action action : initActions) {
             action.execute(gameMap);
         }
-        while (moveCounter < Settings.SIMULATION_TURNS) {
+        while (moveCounter < turns) {
             if (!isPaused) {
                 nextTurn();
                 moveCounter++;
@@ -39,7 +50,7 @@ public class Simulation {
             for (Action action : turnActions) {
                 action.execute(gameMap);
             }
-            Thread.sleep(Settings.TIME_SLEEP_BETWEEN_TURNS);
+            Thread.sleep(timeSleepBetweenTurns);
             mapConsoleRenderer.render(gameMap);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -50,12 +61,13 @@ public class Simulation {
         Thread inputThread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (true) {
-                System.out.println("Press 'p' to pause or 'r' to resume:");
+                System.out.printf("Press '%s' to pause or '%s' to resume:", PAUSE, RESUME);
+                System.out.println();
                 String input = scanner.nextLine().trim();
-                if (input.equalsIgnoreCase("p")) {
+                if (input.equalsIgnoreCase(PAUSE)) {
                     isPaused = true;
                     System.out.println("Simulation paused.");
-                } else if (input.equalsIgnoreCase("r")) {
+                } else if (input.equalsIgnoreCase(RESUME)) {
                     isPaused = false;
                     System.out.println("Simulation resumed.");
                 }
@@ -77,7 +89,7 @@ public class Simulation {
         }
     }
     private void createActions(){
-        initActions.add(new SpawnEntityAction(Obstacle.class, 5));
+        initActions.add(new SpawnEntityAction(Obstacle.class));
         initActions.add(new SpawnEntityAction(Predator.class));
         turnActions.add(new MoveEntityAction());
         turnActions.add(new SpawnEntityAction(Herbivore.class));

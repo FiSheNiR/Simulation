@@ -1,15 +1,16 @@
-package org.example.Entity;
+package org.example.entity;
 
-import org.example.Map.Coordinates;
-import org.example.Map.GameMap;
+import org.example.map.Coordinates;
+import org.example.map.GameMap;
 
 public abstract class Creature extends Entity implements Movable {
 
-    protected final int speed;
+    public Coordinates coordinates;
+    protected int speed;
     private int health;
 
     public Creature(Coordinates coordinates, int speed, int health) {
-        super(coordinates);
+        this.coordinates = coordinates;
         this.speed = speed;
         this.health = health;
     }

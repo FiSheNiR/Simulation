@@ -1,6 +1,6 @@
-package org.example.Actions;
+package org.example.actions;
 
-import org.example.Map.GameMap;
+import org.example.map.GameMap;
 
 public interface Action {
     void execute(GameMap gameMap);

@@ -1,16 +1,19 @@
-package org.example.Entity;
+package org.example.entity;
 
-import org.example.Map.Coordinates;
-import org.example.Map.GameMap;
-import org.example.Simulation.Settings;
+import org.example.map.Coordinates;
+import org.example.map.GameMap;
 
 public class Predator extends Creature{
 
-    private final int attackRate;
+    private int attackRate = 5;
+
+    public Predator(Coordinates coordinates, int speed, int health, int attackRate) {
+        super(coordinates, speed, health);
+        this.attackRate = attackRate;
+    }
 
     public Predator(Coordinates coordinates) {
-        super(coordinates, Settings.BASE_PREDATOR_SPEED_RATE, Settings.BASE_HEALTH);
-        this.attackRate = Settings.BASE_ATTACK_RATE;
+        super(coordinates, 1, 10);
     }
 
     public int getAttackRate() {

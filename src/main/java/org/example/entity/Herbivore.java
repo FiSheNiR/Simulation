@@ -1,13 +1,16 @@
-package org.example.Entity;
+package org.example.entity;
 
-import org.example.Map.Coordinates;
-import org.example.Map.GameMap;
-import org.example.Simulation.Settings;
+import org.example.map.Coordinates;
+import org.example.map.GameMap;
 
 public class Herbivore extends Creature{
 
+    public Herbivore(Coordinates coordinates, int speed, int health) {
+        super(coordinates, speed, health);
+    }
+
     public Herbivore(Coordinates coordinates) {
-        super(coordinates, Settings.BASE_HERBIVORE_SPEED_RATE, Settings.BASE_HEALTH);
+        super(coordinates, 1, 10);
     }
 
     @Override

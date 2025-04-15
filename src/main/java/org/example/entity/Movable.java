@@ -1,8 +1,8 @@
-package org.example.Entity;
+package org.example.entity;
 
-import org.example.Map.Coordinates;
-import org.example.Map.GameMap;
-import org.example.Service.BFS;
+import org.example.map.Coordinates;
+import org.example.map.GameMap;
+import org.example.service.BFS;
 
 import java.util.Deque;
 
@@ -35,8 +35,8 @@ public interface Movable {
     }
 
     private void performAttack(Coordinates predatorCoordinates, Coordinates targetCoordinates, GameMap gameMap) {
-        Entity predator = gameMap.getEntityByCoordinates(predatorCoordinates);
-        Entity target = gameMap.getEntityByCoordinates(targetCoordinates);
+        Entity predator = gameMap.getEntity(predatorCoordinates);
+        Entity target = gameMap.getEntity(targetCoordinates);
 
         if (predator instanceof Predator predatorInstance && target instanceof Herbivore herbivore) {
             herbivore.setHealth(herbivore.getHealth() - predatorInstance.getAttackRate());
@@ -44,8 +44,8 @@ public interface Movable {
     }
 
     private boolean isAliveAfterAttack(Coordinates predatorCoordinates, Coordinates targetCoordinates, GameMap gameMap) {
-        Entity predator = gameMap.getEntityByCoordinates(predatorCoordinates);
-        Entity target = gameMap.getEntityByCoordinates(targetCoordinates);
+        Entity predator = gameMap.getEntity(predatorCoordinates);
+        Entity target = gameMap.getEntity(targetCoordinates);
 
         if (predator instanceof Predator predatorInstance && target instanceof Herbivore herbivore) {
             return herbivore.getHealth() - predatorInstance.getAttackRate() > 0;
@@ -54,7 +54,7 @@ public interface Movable {
     }
 
     private void travel(Coordinates from, Coordinates to, GameMap gameMap) {
-        if (gameMap.getEntityByCoordinates(from) == null) {
+        if (gameMap.getEntity(from) == null) {
             return;
         }
         gameMap.moveEntity(from, to);

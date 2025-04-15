@@ -1,11 +1,10 @@
-package org.example.Service;
+package org.example.service;
 
-import org.example.Entity.Entity;
-import org.example.Entity.Herbivore;
-import org.example.Entity.Plant;
-import org.example.Map.CoordinateShift;
-import org.example.Map.Coordinates;
-import org.example.Map.GameMap;
+import org.example.entity.Entity;
+import org.example.entity.Herbivore;
+import org.example.entity.Plant;
+import org.example.map.Coordinates;
+import org.example.map.GameMap;
 
 import java.util.*;
 
@@ -21,11 +20,11 @@ public class BFS {
     public Coordinates isTargetNear(Coordinates coordinates, Class<? extends Entity> className) {
         if (className == Herbivore.class) {
             return getAvailableMoveFields(coordinates).stream()
-                    .filter(c -> map.getEntityByCoordinates(c) instanceof Plant)
+                    .filter(c -> map.getEntity(c) instanceof Plant)
                     .findFirst().orElse(null);
         } else {
             return getAvailableMoveFields(coordinates).stream()
-                    .filter(c -> map.getEntityByCoordinates(c) instanceof Herbivore)
+                    .filter(c -> map.getEntity(c) instanceof Herbivore)
                     .findFirst().orElse(null);
         }
     }
@@ -87,9 +86,9 @@ public class BFS {
 
     private List<Coordinates> getAvailableMoveFields(Coordinates coordinates) {
         List<Coordinates> result = new ArrayList<>();
-        for (CoordinateShift shift : fieldsToCheck()) {
-            if (coordinates.canShift(shift)) {
-                Coordinates newCoordinates = coordinates.shift(shift);
+        for (Coordinates shift : shiftCoordinates()) {
+            if (canShift(coordinates, shift)) {
+                Coordinates newCoordinates = new Coordinates(coordinates.row + shift.row, coordinates.column + shift.column);
                 result.add(newCoordinates);
             }
         }
@@ -100,19 +99,29 @@ public class BFS {
         return getAvailableMoveFields(coordinates).stream().filter(map::isFieldEmpty).toList();
     }
 
-    private Set<CoordinateShift> fieldsToCheck() {
+    private List<Coordinates> shiftCoordinates() {
 
-        Set<CoordinateShift> result = new HashSet<>();
+        List<Coordinates> result = new ArrayList<>();
 
-        for (int fileShift = -1; fileShift <= 1; fileShift++) {
-            for (int verticalShift = -1; verticalShift <= 1; verticalShift++) {
-                if ((fileShift == 0) && (verticalShift == 0)) {
-                    continue;
-                }
-                result.add(new CoordinateShift(fileShift, verticalShift));
-            }
-        }
+        result.add(new Coordinates(0, 1));
+        result.add(new Coordinates(0, -1));
+        result.add(new Coordinates(1, 1));
+        result.add(new Coordinates(1, -1));
+        result.add(new Coordinates(1, 0));
+        result.add(new Coordinates(-1, -1));
+        result.add(new Coordinates(-1, 1));
+        result.add(new Coordinates(-1, 0));
 
         return result;
+    }
+
+    private boolean canShift(Coordinates coordinate, Coordinates shift) {
+        int h = coordinate.row + shift.row;
+        int v = coordinate.column + shift.column;
+
+        return  h >= 0 &&
+                v >= 0 &&
+                v <= map.getGameMapWidth() &&
+                h <= map.getGameMapHeight();
     }
 }
